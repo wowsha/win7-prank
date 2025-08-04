@@ -2,23 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>System Alert - Win7 Prank</title>
+  <title>System Alert</title>
+  <!-- Windows 7 styling -->
   <link rel="stylesheet" href="https://unpkg.com/7.css" />
   <style>
-    /* Full desktop background */
+    /* full desktop background */
     body {
       margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       height: 100vh;
       background: url('https://www.justus.ws/misc/windows-7-default-wallpaper/windows-7-default-wallpaper.png') no-repeat center center fixed;
       background-size: cover;
       font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
     }
 
-    /* Overlay to dim background */
+    /* overlay to dim the rest of the screen */
     .overlay {
       position: fixed;
       inset: 0;
@@ -26,27 +27,26 @@
       z-index: 1;
     }
 
-    /* Prank dialog window */
+    /* size/position of the dialog */
     .window.glass.active {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
       width: 320px;
-      z-index: 10;
-      background-color: rgba(255 255 255 / 0.3);
-      backdrop-filter: blur(8px);
+      z-index: 2;
     }
+
+    /* window body styling */
     .window-glass .window-body {
       padding: 14px;
       font-size: 13px;
       color: #222;
     }
+
+    /* status-bar with OK button */
     .window-glass .status-bar {
       padding: 8px;
       text-align: right;
     }
-    /* Red Close Button styling */
+
+    /* red “Close” ([X]) button override */
     .window.glass.active
       .title-bar-controls
       button[aria-label="Close"] {
@@ -64,33 +64,35 @@
       background-color: #900;
     }
 
-    /* Taskbar from your image */
-    .taskbar-image {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100vw;
-      height: 40px; /* typical taskbar height */
-      background: url('https://wowsha.github.io/win7-prank/taskbar.png') no-repeat center bottom;
-      background-size: cover;
-      z-index: 20;
-      pointer-events: none; /* so clicks go through taskbar */
+    /* fallback: stronger glass effect in browsers with backdrop-filter support */
+    .window.glass {
+      background-color: rgba(255 255 255 / 0.3);
+      /* only apply blur in supported environments */
+      @supports (backdrop-filter: blur(8px)) {
+        background-color: rgba(255 255 255 / 0.2);
+        backdrop-filter: blur(8px) saturate(130%);
+      }
+      /* fallback for older browsers: solid light tint */
+      @supports not (backdrop-filter: none) {
+        background-color: rgba(255 255 255 / 0.85);
+      }
     }
   </style>
 </head>
 <body>
   <div class="overlay"></div>
 
-  <div class="window glass active" role="dialog" aria-modal="true" aria-labelledby="dialog-title" aria-describedby="dialog-desc">
+  <div class="window glass active"
+       style="--w7-w-bg: #0078D7;"> <!-- Aero accent color -->
     <div class="title-bar">
-      <div class="title-bar-text" id="dialog-title">System</div>
+      <div class="title-bar-text">System</div>
       <div class="title-bar-controls">
         <button aria-label="Minimize"></button>
         <button aria-label="Maximize"></button>
         <button aria-label="Close" onclick="closeDialog()"></button>
       </div>
     </div>
-    <div class="window-body" id="dialog-desc">
+    <div class="window-body">
       <p>The folder <strong>C:\Windows\System32</strong> has been <strong>deleted</strong>.</p>
     </div>
     <div class="status-bar">
@@ -98,13 +100,10 @@
     </div>
   </div>
 
-  <div class="taskbar-image"></div>
-
   <script>
     function closeDialog() {
-      // Remove prank dialog and overlay
       document.body.innerHTML = '';
-      alert("Gotcha! Just a prank, System32 is safe!");
+      alert("It was just a prank — System32 is intact!");
     }
   </script>
 </body>
