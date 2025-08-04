@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>System Alert</title>
+  <link rel="stylesheet" href="https://unpkg.com/7.css" />
+  <style>
+    /* Full-screen background */
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      height: 100vh;
+      background: url('https://www.justus.ws/misc/windows-7-default-wallpaper/windows-7-default-wallpaper.png') no-repeat center center fixed;
+      background-size: cover;
+      font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
+    }
+
+    /* Overlay to dim the background */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    /* Taskbar styling */
+    .taskbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: #323232;
+      color: white;
+      padding: 0 10px;
+      z-index: 2;
+    }
+
+    /* Start button */
+    .start-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 30px;
+      background: #0078d7;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .start-button img {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Taskbar icons */
+    .taskbar-icons {
+      display: flex;
+      align-items: center;
+    }
+
+    .taskbar-icons img {
+      width: 24px;
+      height: 24px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    /* System tray */
+    .system-tray {
+      display: flex;
+      align-items: center;
+    }
+
+    .system-tray img {
+      width: 16px;
+      height: 16px;
+      margin-left: 10px;
+    }
+
+    /* Window styling */
+    .window.glass.active {
+      width: 320px;
+      z-index: 3;
+      background-color: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(8px);
+    }
+
+    .window-glass .window-body {
+      padding: 14px;
+      font-size: 13px;
+      color: #222;
+    }
+
+    .window-glass .status-bar {
+      padding: 8px;
+      text-align: right;
+    }
+
+    .window.glass.active
+      .title-bar-controls
+      button[aria-label="Close"] {
+      background-color: #c00;
+      color: #fff;
+    }
+
+    .window.glass.active
+      .title-bar-controls
+      button[aria-label="Close"]:hover {
+      background-color: #e44;
+    }
+
+    .window.glass.active
+      .title-bar-controls
+      button[aria-label="Close"]:active {
+      background-color: #900;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <div class="taskbar">
+    <div class="start-button">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Windows_7_Logo.png" alt="Start">
+    </div>
+    <div class="taskbar-icons">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Windows_7_Logo.png" alt="IE">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Windows_7_Logo.png" alt="Explorer">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Windows_7_Logo.png" alt="Media Player">
+    </div>
+    <div class="system-tray">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Windows_7_Logo.png" alt="Network">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Windows_7_Logo.png" alt="Volume">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Windows_7_Logo.png" alt="Clock">
+    </div>
+  </div>
+
+  <div class="window glass active">
+    <div class="title-bar">
+      <div class="title-bar-text">System</div>
+      <div class="title-bar-controls">
+        <button aria-label="Minimize"></button>
+        <button aria-label="Maximize"></button>
+        <button aria-label="Close" onclick="closeDialog()"></button>
+      </div>
+    </div>
+    <div class="window-body">
+      <p>The folder <strong>C:\Windows\System32</strong> has been <strong>deleted</strong>.</p>
+    </div>
+    <div class="status-bar">
+      <button class="btn" onclick="closeDialog()">OK</button>
+    </div>
+  </div>
+
+  <script>
+    function closeDialog() {
+      document.body.innerHTML = '';
+      alert("It was just a prank — System32 is intact!");
+    }
+  </script>
+</body>
+</html>
